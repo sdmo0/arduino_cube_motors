@@ -13,13 +13,16 @@
 #define ABORT A0
 #define HOLD A1
 #define RESUME A2
+
+#define SPEED_FACTOR 120
+
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
 void rotateDegB(float deg, float speed) {
     int dir = (deg > 0) ? HIGH : LOW;
     digitalWrite(B_DIR_PIN, dir);
     int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * 100;
+    int usDelay = (1 / speed) * SPEED_FACTOR;
     for (int i = 0; i < steps; i++) {
         digitalWrite(B_STEP_PIN, HIGH);
         delayMicroseconds(usDelay);
@@ -33,7 +36,7 @@ void rotateDegD(float deg, float speed) {
     digitalWrite(D_DIR_PIN, dir);
 
     int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * 100;
+    int usDelay = (1 / speed) * SPEED_FACTOR;
 
     for (int i = 0; i < steps; i++) {
         digitalWrite(D_STEP_PIN, HIGH);
@@ -48,7 +51,7 @@ void rotateDegL(float deg, float speed) {
     digitalWrite(L_DIR_PIN, dir);
 
     int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * 100;
+    int usDelay = (1 / speed) * SPEED_FACTOR;
 
     for (int i = 0; i < steps; i++) {
         digitalWrite(L_STEP_PIN, HIGH);
