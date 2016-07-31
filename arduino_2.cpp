@@ -18,48 +18,6 @@
 
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
-void rotateDegB(float deg, float speed) {
-    int dir = (deg > 0) ? HIGH : LOW;
-    digitalWrite(B_DIR_PIN, dir);
-    int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * SPEED_FACTOR;
-    for (int i = 0; i < steps; i++) {
-        digitalWrite(B_STEP_PIN, HIGH);
-        delayMicroseconds(usDelay);
-        digitalWrite(B_STEP_PIN, LOW);
-        delayMicroseconds(usDelay);
-    }
-}
-void rotateDegD(float deg, float speed) {
-    int dir = (deg > 0) ? HIGH : LOW;
-
-    digitalWrite(D_DIR_PIN, dir);
-
-    int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * SPEED_FACTOR;
-
-    for (int i = 0; i < steps; i++) {
-        digitalWrite(D_STEP_PIN, HIGH);
-        delayMicroseconds(usDelay);
-        digitalWrite(D_STEP_PIN, LOW);
-        delayMicroseconds(usDelay);
-    }
-}
-void rotateDegL(float deg, float speed) {
-    int dir = (deg > 0) ? HIGH : LOW;
-
-    digitalWrite(L_DIR_PIN, dir);
-
-    int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * SPEED_FACTOR;
-
-    for (int i = 0; i < steps; i++) {
-        digitalWrite(L_STEP_PIN, HIGH);
-        delayMicroseconds(usDelay);
-        digitalWrite(L_STEP_PIN, LOW);
-        delayMicroseconds(usDelay);
-    }
-}
 void serialEvent() {
     while (Serial.available()) {
         // get the new byte:
@@ -70,7 +28,20 @@ void serialEvent() {
         // so the main loop can do somethistrng about it:
         stringComplete = true;
     }
-}   
+}
+void rotateDeg(int dir_pin, int step_pin, float deg, float speed) {
+    int dir = (deg > 0) ? HIGH : LOW;
+    digitalWrite(dir_pin, dir);
+    int steps = abs(deg) * (1 / 0.225);
+    int usDelay = (1 / speed) * SPEED_FACTOR;
+    for (int i = 0; i < steps; i++) {
+        digitalWrite(step_pin, HIGH);
+        delayMicroseconds(usDelay);
+        digitalWrite(step_pin, LOW);
+        delayMicroseconds(usDelay);
+    }
+}
+
 void setup() {
     Serial.begin(38400);
     inputString.reserve(200);
@@ -96,22 +67,22 @@ void loop() {
     if (stringComplete) {
         for (int i = 0; i < inputString.length(); i++) {
             if (inputString[i] == 'B') {
-                rotateDegB(90, 1);
+                rotateDeg(B_DIR_PIN, B_STEP_PIN, 90, 1);
             }
             else if (inputString[i] == 'b') {
-                rotateDegB(-90, 1);
+                rotateDeg(B_DIR_PIN, B_STEP_PIN, -90, 1);
             }
             else  if (inputString[i] == 'D') {
-                rotateDegD(90, 1);
+                rotateDeg(D_DIR_PIN, D_STEP_PIN, 90, 1);
             }
             else  if (inputString[i] == 'd') {
-                rotateDegD(-90, 1);
+                rotateDeg(D_DIR_PIN, D_STEP_PIN, -90, 1);
             }
             else  if (inputString[i] == 'L') {
-                rotateDegL(90, 1);
+                rotateDeg(L_DIR_PIN, L_STEP_PIN, 90, 1);
             }
             else  if (inputString[i] == 'l') {
-                rotateDegL(-90, 1);
+                rotateDeg(L_DIR_PIN, L_STEP_PIN, -90, 1);
             }
             delay(500);
             Serial.println('2');

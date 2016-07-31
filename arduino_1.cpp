@@ -30,48 +30,19 @@ void serialEvent() {
         stringComplete = true;
     }
 }
-void rotateDegR(float deg, float speed) {
+void rotateDeg(int dir_pin, int step_pin, float deg, float speed) {
     int dir = (deg > 0) ? HIGH : LOW;
-    digitalWrite(R_DIR_PIN, dir);
+    digitalWrite(dir_pin, dir);
     int steps = abs(deg) * (1 / 0.225);
     int usDelay = (1 / speed) * SPEED_FACTOR;
     for (int i = 0; i < steps; i++) {
-        digitalWrite(R_STEP_PIN, HIGH);
+        digitalWrite(step_pin, HIGH);
         delayMicroseconds(usDelay);
-        digitalWrite(R_STEP_PIN, LOW);
+        digitalWrite(step_pin, LOW);
         delayMicroseconds(usDelay);
     }
 }
-void rotateDegU(float deg, float speed) {
-    int dir = (deg > 0) ? HIGH : LOW;
 
-    digitalWrite(U_DIR_PIN, dir);
-
-    int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * SPEED_FACTOR;
-
-    for (int i = 0; i < steps; i++) {
-        digitalWrite(U_STEP_PIN, HIGH);
-        delayMicroseconds(usDelay);
-        digitalWrite(U_STEP_PIN, LOW);
-        delayMicroseconds(usDelay);
-    }
-}
-void rotateDegF(float deg, float speed) {
-    int dir = (deg > 0) ? HIGH : LOW;
-
-    digitalWrite(F_DIR_PIN, dir);
-
-    int steps = abs(deg) * (1 / 0.225);
-    int usDelay = (1 / speed) * SPEED_FACTOR;
-
-    for (int i = 0; i < steps; i++) {
-        digitalWrite(F_STEP_PIN, HIGH);
-        delayMicroseconds(usDelay);
-        digitalWrite(F_STEP_PIN, LOW);
-        delayMicroseconds(usDelay);
-    }
-}   
 void setup() {
     Serial.begin(38400);
     inputString.reserve(200);
@@ -97,22 +68,22 @@ void loop() {
     if (stringComplete) {
         for (int i = 0; i < inputString.length(); i++) {
             if (inputString[i] == 'R') {
-                rotateDegR(90, 1);
+                rotateDeg(R_DIR_PIN, R_STEP_PIN, 90, 1);
             }
             else if (inputString[i] == 'r') {
-                rotateDegR(-90, 1);
+                rotateDeg(R_DIR_PIN, R_STEP_PIN, -90, 1);
             }
             else  if (inputString[i] == 'U') {
-                rotateDegU(90, 1);
+                rotateDeg(U_DIR_PIN, U_STEP_PIN, 90, 1);
             }
             else  if (inputString[i] == 'u') {
-                rotateDegU(-90, 1);
+                rotateDeg(U_DIR_PIN, U_STEP_PIN, -90, 1);
             }
             else  if (inputString[i] == 'F') {
-                rotateDegF(90, 1);
+                rotateDeg(F_DIR_PIN, F_STEP_PIN, 90, 1);
             }
             else  if (inputString[i] == 'f') {
-                rotateDegF(-90, 1);
+                rotateDeg(F_DIR_PIN, F_STEP_PIN, -90, 1);
             }
             delay(500);
             Serial.println('1');
