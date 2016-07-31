@@ -86,7 +86,7 @@ void loop() {
                 rotateDeg(F_DIR_PIN, F_STEP_PIN, -90, 1);
             }
             delay(500);
-            Serial.println('1');
+            Serial.println(inputString[i]);
             inputString = "";
             stringComplete = false;
         }
