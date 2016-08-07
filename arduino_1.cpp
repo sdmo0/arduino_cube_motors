@@ -14,7 +14,8 @@
 #define HOLD A1
 #define RESUME A2
 
-#define SPEED_FACTOR 120
+#define SPEED_FACTOR 160
+#define DEGREE_FACTOR 90
 
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
@@ -68,24 +69,24 @@ void loop() {
     if (stringComplete) {
         for (int i = 0; i < inputString.length(); i++) {
             if (inputString[i] == 'R') {
-                rotateDeg(R_DIR_PIN, R_STEP_PIN, 90, 1);
+                rotateDeg(R_DIR_PIN, R_STEP_PIN, DEGREE_FACTOR, 1);
             }
             else if (inputString[i] == 'r') {
-                rotateDeg(R_DIR_PIN, R_STEP_PIN, -90, 1);
+                rotateDeg(R_DIR_PIN, R_STEP_PIN, -DEGREE_FACTOR, 1);
             }
             else  if (inputString[i] == 'U') {
-                rotateDeg(U_DIR_PIN, U_STEP_PIN, 90, 1);
+                rotateDeg(U_DIR_PIN, U_STEP_PIN, DEGREE_FACTOR, 1);
             }
             else  if (inputString[i] == 'u') {
-                rotateDeg(U_DIR_PIN, U_STEP_PIN, -90, 1);
+                rotateDeg(U_DIR_PIN, U_STEP_PIN, -DEGREE_FACTOR, 1);
             }
             else  if (inputString[i] == 'F') {
-                rotateDeg(F_DIR_PIN, F_STEP_PIN, 90, 1);
+                rotateDeg(F_DIR_PIN, F_STEP_PIN, DEGREE_FACTOR, 1);
             }
             else  if (inputString[i] == 'f') {
-                rotateDeg(F_DIR_PIN, F_STEP_PIN, -90, 1);
+                rotateDeg(F_DIR_PIN, F_STEP_PIN, -DEGREE_FACTOR, 1);
             }
-            delay(500);
+            delay(300);
             Serial.println(inputString[i]);
             inputString = "";
             stringComplete = false;
